@@ -138,6 +138,31 @@ GameEngine.prototype.showTip = function (idx) {
 		}
 	}
 };
+GameEngine.prototype.restart = function () {
+    var that = this;
+	if (that.player1.dead) { //revive
+		that.player1.dead = false;
+		that.player1.currentHealth = that.player1.maxHealth;
+		if (that.player1.currentForm == FORM_BABY) {
+			that.player1.currentStamina = that.player1.maxStamina;
+		}
+		that.player1.vulnerable = false;
+		that.player1.invulnTimer = that.player1.invulnTimerMax * 2;
+		that.player1.hitByAttack = true;
+		that.player1.xVelocity = 0;
+		that.player1.stunTimer = 2;
+		that.player1.stunned = true;
+		that.player1.difficultyTick = 0;
+		
+		that.pauseTime = 5;
+		that.addEntity(new BlackScreenFade(that, 30));
+		//that.player1.teleportToX = that.player1.lastSafeX;
+		//that.player1.teleportToY = that.player1.lastSafeY - 3;
+		
+		that.player1.displacementXSpeed = 0;
+		that.score = 0; //Math.round(that.score * 0.8);
+	}
+}
 GameEngine.prototype.startInput = function () {
     console.log("Starting input");
     var that = this;
@@ -147,28 +172,7 @@ GameEngine.prototype.startInput = function () {
 			that.spaceDown = true;
 		}
 		if (String.fromCharCode(e.which) === 'R') {
-			if (that.player1.dead) { //revive
-				that.player1.dead = false;
-				that.player1.currentHealth = that.player1.maxHealth;
-				if (that.player1.currentForm == FORM_BABY) {
-					that.player1.currentStamina = that.player1.maxStamina;
-				}
-				that.player1.vulnerable = false;
-				that.player1.invulnTimer = that.player1.invulnTimerMax * 2;
-				that.player1.hitByAttack = true;
-				that.player1.xVelocity = 0;
-				that.player1.stunTimer = 2;
-				that.player1.stunned = true;
-				that.player1.difficultyTick = 0;
-				
-				that.pauseTime = 5;
-				that.addEntity(new BlackScreenFade(that, 30));
-				//that.player1.teleportToX = that.player1.lastSafeX;
-				//that.player1.teleportToY = that.player1.lastSafeY - 3;
-				
-				that.player1.displacementXSpeed = 0;
-				that.score = 0; //Math.round(that.score * 0.8);
-			}
+			that.restart();
 		}
         e.preventDefault();
     }, false);

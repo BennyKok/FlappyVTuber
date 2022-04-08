@@ -2,7 +2,7 @@
     Variables for testing
 */
 
-var soundOn = true;
+var soundOn = false;
 var showHitBox = false;
 var invincible = false;
 
@@ -866,7 +866,7 @@ function musicControl() {
 
 function hardMode() {
 	var elem;
-	if (vtsAuthenticated) {
+	if (true) {
 		mode = "hard";
 		gameStarted = true;
 		elem = document.getElementById("difficulty");

@@ -13,40 +13,40 @@ var waitingTicks = 0;
 var flapDetected = false;
 var gameReference = null;
 
-var socket = new WebSocket("ws://localhost:8001/");
-socket.onopen = function(e) {
-  console.log("[open] Connection established");
-  console.log("Sending to server");
-  attemptAuthenticate();
-};
+// var socket = new WebSocket("ws://localhost:8001/");
+// socket.onopen = function(e) {
+//   console.log("[open] Connection established");
+//   console.log("Sending to server");
+//   attemptAuthenticate();
+// };
 
-socket.onmessage = function(event) {
-  //console.log(`[message] Data received from server: ${event.data}`);
-  var json = JSON.parse(event.data);
-  if (json.messageType == "AuthenticationTokenResponse") {
-	  onTokenResponse(json);
-  }
-  if (json.messageType == "AuthenticationResponse") {
-	  onAuthenticationResponse(json);
-  }
-  if (json.messageType == "ParameterValueResponse") {
-	  onParameterResponse(json);
-  }
-};
+// socket.onmessage = function(event) {
+//   //console.log(`[message] Data received from server: ${event.data}`);
+//   var json = JSON.parse(event.data);
+//   if (json.messageType == "AuthenticationTokenResponse") {
+// 	  onTokenResponse(json);
+//   }
+//   if (json.messageType == "AuthenticationResponse") {
+// 	  onAuthenticationResponse(json);
+//   }
+//   if (json.messageType == "ParameterValueResponse") {
+// 	  onParameterResponse(json);
+//   }
+// };
 
-socket.onclose = function(event) {
-  if (event.wasClean) {
-	console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-  } else {
-	// e.g. server process killed or network down
-	// event.code is usually 1006 in this case
-	console.log('[close] Connection died');
-  }
-};
+// socket.onclose = function(event) {
+//   if (event.wasClean) {
+// 	console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+//   } else {
+// 	// e.g. server process killed or network down
+// 	// event.code is usually 1006 in this case
+// 	console.log('[close] Connection died');
+//   }
+// };
 
-socket.onerror = function(error) {
-  console.log(`[error] ${error.message}`);
-};
+// socket.onerror = function(error) {
+//   console.log(`[error] ${error.message}`);
+// };
 
 function onParameterResponse(json) {
 	var faceY = json.data.value;
@@ -55,7 +55,7 @@ function onParameterResponse(json) {
 		peakY = faceY;
 	//console.log("calibrated: " + vtsCalibrated + "; ing: " + vtsCalibrating);
 	if (!vtsCalibrated) {
-		console.log("faceY: " + faceY);
+		// console.log("faceY: " + faceY);
 		faceYTotal += faceY;
 		faceYLog.push(faceY);
 		if (faceYLog.length == 300) {
@@ -97,7 +97,7 @@ function attemptAuthenticate() {
 }
 
 function updateParameters() {
-	socket.send(JSON.stringify(PARAM_REQUEST));
+	// socket.send(JSON.stringify(PARAM_REQUEST));
 }
 
 var TOKEN_REQUEST = {
